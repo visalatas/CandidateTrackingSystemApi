@@ -41,14 +41,14 @@ namespace CandidateRepository.Repositories
         public async Task RomoveAsync(TEntity entity)
         {
             await Task.Run(() => {
-                _dbSet.RemoveRange(entity);
+                _dbSet.Remove(entity);
             });
         }
 
         public async Task UpdateAsync(TEntity entity)
         {
             await Task.Run(() => {
-               _dbSet.RemoveRange(entity);
+               _dbSet.Update(entity);
             });
         }
     }
