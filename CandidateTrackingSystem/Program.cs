@@ -1,4 +1,8 @@
+using CandidateCore.Repository;
+using CandidateCore.UnitOfWorks;
 using CandidateRepository;
+using CandidateRepository.Repositories;
+using CandidateRepository.UnitOfWorks;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -21,6 +25,10 @@ builder.Services.AddDbContext<CondidateDbContext>(x =>
         option.MigrationsAssembly(Assembly.GetAssembly(typeof(CondidateDbContext)).GetName().Name);
     });
 });
+
+builder.Services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
+builder.Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
+
 
 
 var app = builder.Build();
