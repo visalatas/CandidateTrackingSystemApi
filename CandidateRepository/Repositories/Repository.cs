@@ -17,28 +17,39 @@ namespace CandidateRepository.Repositories
         public Repository(CondidateDbContext context, DbSet<TEntity> dbSet)
         {
             _context = context;
-            _dbSet = _context.Set<TEntity>()
+            _dbSet = _context.Set<TEntity>();
         }
 
-        public Task<TEntity> AddAsync(TEntity entity)
+        public async Task<TEntity> AddAsync(TEntity entity)
         {
-            
+           await _dbSet.AddAsync(entity);
+           return entity;
         }
 
-        public Task<IEnumerable<TEntity>> GetAllAsync()
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
+            return await _dbSet.ToListAsync();
         }
 
-        public Task<TEntity> GetByIdAsync(TPrimaryKey id)
+        public async Task<TEntity> GetByIdAsync(TPrimaryKey id)
         {
+            var result = await _dbSet.FirstOrDefaultAsync();
+
+            return result;
         }
 
-        public Task RomoveAsync(TEntity entity)
+        public async Task RomoveAsync(TEntity entity)
         {
+            await Task.Run(() => {
+                _dbSet.RemoveRange(entity);
+            });
         }
 
-        public Task UpdateAsync(TEntity entity)
+        public async Task UpdateAsync(TEntity entity)
         {
+            await Task.Run(() => {
+               _dbSet.RemoveRange(entity);
+            });
         }
     }
 }

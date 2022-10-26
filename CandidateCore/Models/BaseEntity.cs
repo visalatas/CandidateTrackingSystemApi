@@ -9,7 +9,7 @@ namespace CandidateCore.Models
     public class BaseEntity<TPrimaryKey>
     {
         //Generic bir sınıf tanımladık.
-        public TPrimaryKey Id { get; set; }
+        public TPrimaryKey? Id { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime? UpdateDate { get; set; }
         public int CreateUserId { get; set; } = 1;
