@@ -1,3 +1,4 @@
+using CandidateCore.Mapping;
 using CandidateCore.Repository;
 using CandidateCore.UnitOfWorks;
 using CandidateRepository;
@@ -16,6 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 //Add db context
 
 builder.Services.AddDbContext<CondidateDbContext>(x =>
@@ -28,6 +30,7 @@ builder.Services.AddDbContext<CondidateDbContext>(x =>
 
 builder.Services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
 builder.Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
+builder.Services.AddAutoMapper(typeof(MapProfile));
 
 
 

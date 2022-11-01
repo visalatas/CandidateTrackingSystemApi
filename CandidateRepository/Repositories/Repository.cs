@@ -46,7 +46,7 @@ namespace CandidateRepository.Repositories
             return result;
         }
 
-        public async Task RomoveAsync(TEntity entity)
+        public async Task RemoveAsync(TEntity entity)
         {
             await Task.Run(() => {
                 _dbSet.Remove(entity);
@@ -58,6 +58,16 @@ namespace CandidateRepository.Repositories
             await Task.Run(() => {
                _dbSet.Update(entity);
             });
+        }
+
+        public IQueryable<TEntity> Where()
+        {
+            return _dbSet.AsQueryable();
+        }
+
+        public IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _dbSet.Where(predicate);
         }
     }
 }

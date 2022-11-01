@@ -6,7 +6,7 @@ namespace CandidateCore.Dtos
     {
         public string PositionName { get; set; }
         public int DepartmentId { get; set; }
-        public virtual Department Department { get; set; }
-        public virtual ICollection<Person> Persons { get; set; }
+        public virtual DepartmentDto Department { get; set; }
+        public virtual List<PersonDto> Persons { get; set; }
     }
 }

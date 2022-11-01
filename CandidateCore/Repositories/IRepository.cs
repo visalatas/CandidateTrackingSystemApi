@@ -17,9 +17,11 @@ namespace CandidateCore.Repository
         Task<TEntity> GetByIdAsync(TPrimaryKey id);
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task UpdateAsync(TEntity entity);
-        Task RomoveAsync(TEntity entity);
+        Task RemoveAsync(TEntity entity);
         Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate);
         Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate);
+        IQueryable<TEntity> Where();
+        IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate);
 
     }
 }

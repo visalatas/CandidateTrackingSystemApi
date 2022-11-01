@@ -5,7 +5,7 @@ namespace CandidateCore.Dtos
     {
         public string StepName { get; set; }
         public int StepQueue { get; set; }
-        public virtual ICollection<Person> Persons { get; set; }
+        public virtual List<PersonDto> Persons { get; set; }
 
     }
 }
