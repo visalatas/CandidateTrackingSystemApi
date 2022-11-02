@@ -32,6 +32,12 @@ namespace CandidateTrackingSystem.Controllers
 
             return _mapper.Map<List<DepartmentDto>>(departments);
         }
+        [HttpGet]
+        public async Task<DepartmentDto> GetAsync(int id )
+        {
+            var department = await _departmentRepository.GetAsync(x => x.Id == id);
+            return _mapper.Map<DepartmentDto>(department);
+        }
         [HttpPost]
         public async Task<DepartmentDto> AddAsync(CreateDepartmentDto input)
         {
