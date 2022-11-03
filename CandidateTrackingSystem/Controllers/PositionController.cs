@@ -27,6 +27,14 @@ namespace CandidateTrackingSystem.Controllers
             _departmentRepository = departmentRepository;
         }
         [HttpGet]
+        public async Task<PositionDto> GetAsync(int id)
+        {
+            var position = await _positionRepository.Where().Include(x => x.Department).FirstOrDefaultAsync();
+            return _mapper.Map<PositionDto>(position);
+
+        }
+
+        [HttpGet]
         public async Task<List<PositionDto>> GetAllAsync()
         {
             var position = await _positionRepository.Where().Include(x => x.Department).ToListAsync();
@@ -45,6 +53,27 @@ namespace CandidateTrackingSystem.Controllers
             position = await _positionRepository.AddAsync(position);
             await _unitOfWork.CommitAsync();
             return _mapper.Map<PositionDto>(position);
+        }
+        [HttpPut]
+        public async Task<PositionDto?> UpdateAsync(UpdatePositionDto input)
+        {
+            var position = await _positionRepository.GetByIdAsync(input.Id);
+            position.PositionName = input.PositionName;
+            position.DepartmentId= input.DepartmentId;
+            var department= await _departmentRepository.Where(x => x.Id == input.DepartmentId).FirstOrDefaultAsync();
+            if (department == null) throw new Exception("Hata Departman bulunamadı!");
+            await _positionRepository.UpdateAsync(position);
+            await _unitOfWork.CommitAsync();
+            return _mapper.Map<PositionDto>(position);
+
+        }
+        [HttpDelete]
+        public async Task RemoveAsync(int id)
+        {
+            var position = await _positionRepository.GetByIdAsync(id);
+            await _positionRepository.RemoveAsync(position);
+            await _unitOfWork.CommitAsync();
+
         }
     }
 }
