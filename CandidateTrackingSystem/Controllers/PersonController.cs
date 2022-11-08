@@ -33,14 +33,20 @@ namespace CandidateTrackingSystem.Controllers
         [HttpGet]
         public async Task<List<PersonDto>> GetAllAsync(PersonStatus status)
         {
-            var persons = await _personRepository.Where(x => x.Status == status).Include(x => x.Position).Include(x => x.Position.Department).ToListAsync();
+            var persons = await _personRepository.Where(x => x.Status == status)
+                .Include(x => x.Position)
+                .ThenInclude(x => x.Department)
+                .ToListAsync();
 
             return _mapper.Map<List<PersonDto>>(persons);
         }
         [HttpGet]
         public async Task<PersonDto> GetAsync(int id)
         {
-            var person = await _personRepository.Where().Include(x => x.Position).Include(x => x.Position.Department).FirstOrDefaultAsync();
+            var person = await _personRepository.Where()
+                .Include(x => x.Position)
+                .Include(x => x.Position.Department)
+                .FirstOrDefaultAsync();
             return _mapper.Map<PersonDto>(person);
         }
         
@@ -51,12 +57,13 @@ namespace CandidateTrackingSystem.Controllers
             if (recruitmentStep == null) throw new Exception("Böyle bir adım bulunamadı");
 
             var person = _mapper.Map<Person>(input);
-            person.Name = input.Name;
-            person.SurName = input.SurName;
-            person.PhoneNumber = input.PhoneNumber;
-            person.Mail = input.Mail;
+            //person.Name = input.Name;
+            //person.SurName = input.SurName;
+            //person.PhoneNumber = input.PhoneNumber;
+            //person.Mail = input.Mail;
             person.RecruitmentStepId = recruitmentStep.Id;
-            person.PositionId = input.PositionId;
+            //person.PositionId = input.PositionId;
+
 
             var position = await _positionRepository.Where(x => x.Id == input.PositionId).FirstOrDefaultAsync();
             if (position == null) throw new Exception("Böyle bir pozisyon bulunamadı");
