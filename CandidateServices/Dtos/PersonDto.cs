@@ -1,4 +1,5 @@
 ﻿using CandidateCore.Models;
+using CandidateServices.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,12 @@ namespace CandidateCore.Dtos
         public string Mail { get; set; }
         public string PhoneNumber { get; set; }
         public int PositionId { get; set; }
-        public virtual PositionDto Position { get; set; }
+        public virtual PositionPartDto Position { get; set; }
         public int RecruitmentStepId { get; set; }
-        public virtual RecruitmentStepDto RecruitmentStep { get; set; }
+        public virtual RecruitmentPartDto RecruitmentStep { get; set; }
+       
     }
+
+    // PersonDto => Bağlı olduğu nesneler olur (Yani PartDto'lar)
+//     PersonPartDto => Bağlı bir nesne olmaz (Yani dto olmaz)
 }

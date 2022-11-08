@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace CandidateServices.Dtos
 {
-    public class PositionPartDto : BaseDto
+    public class PersonPartDto : BaseDto
     {
-        public string PositionName { get; set; }
-        public int DepartmentId { get; set; }
-        public virtual PersonPartDto Department { get; set; }
+        public string DepartmentName { get; set; }
+        
     }
 }

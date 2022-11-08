@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CandidateCore.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace CandidateCore.Models
         public string SurName { get; set; }
         public string Mail { get; set; }
         public string PhoneNumber { get; set; }
+        public PersonStatus Status { get; set; } = PersonStatus.Evaluation;
         public int PositionId { get; set; }
         public virtual Position Position { get; set; }
         public int RecruitmentStepId { get; set; }

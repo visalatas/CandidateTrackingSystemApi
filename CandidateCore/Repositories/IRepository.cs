@@ -22,6 +22,6 @@ namespace CandidateCore.Repository
         Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate);
         IQueryable<TEntity> Where();
         IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate);
-
+         
     }
 }
