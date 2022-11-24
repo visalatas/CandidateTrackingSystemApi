@@ -17,6 +17,32 @@ namespace CandidateRepository
         public DbSet<Department> Departments { get; set; }
         public DbSet<RecruitmentStep> RecruitmentSteps { get; set; }
 
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            foreach (var item in ChangeTracker.Entries())
+            {
+                if (item.Entity is BaseEntity entityReferance)
+                {
+                    switch (item.State)
+                    {
+                        case EntityState.Added:
+                            {
+                                entityReferance.CreateDate = DateTime.Now;
+                                break;
+                            }
+                            case EntityState.Modified:
+                            {
+                                Entry(entityReferance).Property(x => x.CreateDate).IsModified = false;
+
+                                entityReferance.UpdateDate = DateTime.Now;
+                                break;
+                            }
+                    }
+                }
+            }
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
