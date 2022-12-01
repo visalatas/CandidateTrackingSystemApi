@@ -34,10 +34,22 @@ namespace CandidateTrackingSystem.Controllers
 
         }
 
-        [HttpGet]
-        public async Task<List<PositionDto>> GetAllAsync()
+        [HttpPost]
+        public async Task<List<PositionDto>> GetAllAsync(PositionListDto input)
         {
-            var position = await _positionRepository.Where().Include(x => x.Department).ToListAsync();
+            var query = _positionRepository.Where();
+            
+            
+            if (input.DepartmentId > 0)
+            {
+                query = query.Where(x => x.DepartmentId == input.DepartmentId);
+            }
+
+            if (!string.IsNullOrEmpty(input.SearchText)) 
+                query = query.Where(x => x.PositionName.Contains(input.SearchText) || x.Department.DepartmentName.Contains(input.SearchText));
+           
+
+            var position = await query.Include(x => x.Department).ToListAsync();
             return _mapper.Map<List<PositionDto>>(position);
         }
 
@@ -57,14 +69,22 @@ namespace CandidateTrackingSystem.Controllers
         [HttpPut]
         public async Task<PositionDto?> UpdateAsync(UpdatePositionDto input)
         {
-            var position = await _positionRepository.GetByIdAsync(input.Id);
-            position.PositionName = input.PositionName;
-            position.DepartmentId= input.DepartmentId;
-            var department= await _departmentRepository.Where(x => x.Id == input.DepartmentId).FirstOrDefaultAsync();
-            if (department == null) throw new Exception("Hata Departman bulunamadı!");
-            await _positionRepository.UpdateAsync(position);
-            await _unitOfWork.CommitAsync();
-            return _mapper.Map<PositionDto>(position);
+            try
+            {
+                var position = await _positionRepository.GetByIdAsync(input.Id);
+                position.PositionName = input.PositionName;
+                position.DepartmentId = input.DepartmentId;
+                var department = await _departmentRepository.Where(x => x.Id == input.DepartmentId).FirstOrDefaultAsync();
+                if (department == null) throw new Exception("Hata Departman bulunamadı!");
+                await _positionRepository.UpdateAsync(position);
+                await _unitOfWork.CommitAsync();
+                return _mapper.Map<PositionDto>(position);
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message,ex.InnerException);
+            }
 
         }
         [HttpDelete]

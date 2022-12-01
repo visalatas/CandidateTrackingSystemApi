@@ -1,6 +1,4 @@
-﻿using CandidateCore.Dtos;
-using CandidateCore.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace CandidateServices.Dtos
 {
-    public class PositionPartDto : BaseDto
+    public class PositionListDto
     {
-        public string PositionName { get; set; }
+        public int Id { get; set; }
+        public string SearchText { get; set; }
         public int DepartmentId { get; set; }
+
+
     }
 }

@@ -15,9 +15,9 @@ namespace CandidateCore.Dtos
         public string Mail { get; set; }
         public string PhoneNumber { get; set; }
         public int PositionId { get; set; }
-        public virtual PositionPartDto Position { get; set; }
+        public PositionPartDto Position { get; set; }
         public int RecruitmentStepId { get; set; }
-        public virtual RecruitmentPartDto RecruitmentStep { get; set; }
+        public RecruitmentPartDto RecruitmentStep { get; set; }
        
     }
 
