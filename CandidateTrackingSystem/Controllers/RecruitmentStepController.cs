@@ -36,11 +36,21 @@ namespace CandidateTrackingSystem.Controllers
             return result;
         }
         [HttpGet]
-        public async Task<List<RecruitmentStepDto>> GetAllAsync()
+        public async Task<List<RecruitmentStepDto>> GetAllAsync([FromQuery]RecruitmentListDto input)
         {
-            var recruitmentStep = await _recruitmentStepRepository.Where().Include(x => x.Persons).ToListAsync();
+            var recruitmentStep = _recruitmentStepRepository.Where();
+
+            if (!string.IsNullOrEmpty(input.SearchText))
+                recruitmentStep = recruitmentStep.Where(x => x.StepName.Contains(input.SearchText) || x.StepQueue.ToString().Contains(input.SearchText));
+
+
+            //var   = input.SearchText.Deneme();
+
+
+            //await recruitmentStep.Include(x => x.Persons).ToListAsync();
             return _mapper.Map<List<RecruitmentStepDto>>(recruitmentStep);
         }
+
         [HttpPost]
         public async Task<RecruitmentStepDto> AddAsync(CreateRecruitmentStepDto input)
         {
@@ -66,6 +76,15 @@ namespace CandidateTrackingSystem.Controllers
             var recruitmentStep = await _recruitmentStepRepository.GetByIdAsync(id);
             await _recruitmentStepRepository.RemoveAsync(recruitmentStep);
             await _unitOfWork.CommitAsync();
+        }
+    }
+
+
+    public static class Merhaba
+    {
+        public static string Deneme(this string deger)
+        {
+            return "Ms. " + deger;
         }
     }
 }

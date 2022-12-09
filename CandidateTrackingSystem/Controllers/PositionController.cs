@@ -34,8 +34,8 @@ namespace CandidateTrackingSystem.Controllers
 
         }
 
-        [HttpPost]
-        public async Task<List<PositionDto>> GetAllAsync(PositionListDto input)
+        [HttpGet]
+        public async Task<List<PositionDto>> GetAllAsync([FromQuery]PositionListDto input)
         {
             var query = _positionRepository.Where();
             

@@ -26,9 +26,16 @@ namespace CandidateTrackingSystem.Controllers
             _unitOfWork = unitOfWork;
         }
         [HttpGet]
-        public async Task<List<DepartmentDto>> GetAllAsync()
+        public async Task<List<DepartmentDto>> GetAllAsync([FromQuery]RecruitmentListDto input)
         {
-            var departments = await _departmentRepository.Where().Include(x => x.Positions).ToListAsync();
+            var departments = _departmentRepository.Where();
+
+            if (!string.IsNullOrEmpty(input.SearchText))
+                departments = departments.Where(x => x.DepartmentName.Contains(input.SearchText));
+
+
+
+            await departments.Include(x => x.Positions).ToListAsync();
 
             return _mapper.Map<List<DepartmentDto>>(departments);
         }
