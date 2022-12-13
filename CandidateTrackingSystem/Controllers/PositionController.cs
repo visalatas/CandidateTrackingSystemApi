@@ -35,22 +35,29 @@ namespace CandidateTrackingSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<List<PositionDto>> GetAllAsync([FromQuery]PositionListDto input)
+        public async Task<GetAllResultDto<PositionDto>> GetAllAsync([FromQuery] PositionListDto input)
         {
             var query = _positionRepository.Where();
-            
-            
+
+
             if (input.DepartmentId > 0)
             {
                 query = query.Where(x => x.DepartmentId == input.DepartmentId);
             }
 
-            if (!string.IsNullOrEmpty(input.SearchText)) 
+            if (!string.IsNullOrEmpty(input.SearchText))
                 query = query.Where(x => x.PositionName.Contains(input.SearchText) || x.Department.DepartmentName.Contains(input.SearchText));
-           
 
-            var position = await query.Include(x => x.Department).ToListAsync();
-            return _mapper.Map<List<PositionDto>>(position);
+
+            query = query.Skip((input.page - 1) * input.DataCount).Take(input.DataCount);
+
+            var position = new GetAllResultDto<PositionDto>()
+            {
+                Items = _mapper.Map<List<PositionDto>>(await query.Include(x => x.Department).ToListAsync()),
+                TotalCount = await _positionRepository.Where().CountAsync()
+            };
+            return position;
+
         }
 
         [HttpPost]
