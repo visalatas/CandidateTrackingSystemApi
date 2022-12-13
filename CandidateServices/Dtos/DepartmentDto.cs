@@ -11,6 +11,6 @@ namespace CandidateCore.Dtos
     public class DepartmentDto : BaseDto
     {
         public string DepartmentName { get; set; }
-        public virtual List<PositionPartDto> Positions { get; set; }
+        public  List<PositionPartDto> Positions { get; set; }
     }
 }

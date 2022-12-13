@@ -9,5 +9,7 @@ namespace CandidateServices.Dtos
     public class RecruitmentListDto
     {
         public string? SearchText { get; set; }
+        public int page { get; set; }
+        public int DataCount { get; set; }
     }
 }
