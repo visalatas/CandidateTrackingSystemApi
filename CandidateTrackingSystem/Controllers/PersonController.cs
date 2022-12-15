@@ -40,6 +40,9 @@ namespace CandidateTrackingSystem.Controllers
 
             return _mapper.Map<List<PersonDto>>(persons);
         }
+
+        
+
         [HttpGet]
         public async Task<PersonDto> GetAsync(int id)
         {

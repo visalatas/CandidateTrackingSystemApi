@@ -50,6 +50,16 @@ namespace CandidateTrackingSystem.Controllers
             //await recruitmentStep.Include(x => x.Persons).ToListAsync();
             return _mapper.Map<List<RecruitmentStepDto>>(recruitmentStep);
         }
+        [HttpGet]
+        public async Task<List<AllTableDto>> GetAllPersonAsync()
+        {
+            var list =await _recruitmentStepRepository.Where()
+                .Include(x => x.Persons)
+                .ThenInclude(x => x.Position)
+                .ThenInclude(x => x.Department)
+                .ToListAsync();
+            return _mapper.Map<List<AllTableDto>>(list);
+        }
 
         [HttpPost]
         public async Task<RecruitmentStepDto> AddAsync(CreateRecruitmentStepDto input)

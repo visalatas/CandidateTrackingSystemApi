@@ -10,13 +10,17 @@ namespace CandidateCore.Mapping
         public MapProfile()
         {
         CreateMap<Person, PersonDto>().ReverseMap();
+        CreateMap<Person, PersonAllDto>().ReverseMap();
         CreateMap<Position, PositionDto>().ReverseMap();
+        CreateMap<Position, PositionAllDto>().ReverseMap();
         CreateMap<Position, PositionPartDto>().ReverseMap();
         CreateMap<Position, PositionListDto>().ReverseMap();
         CreateMap<Department, DepartmentDto>().ReverseMap();
         CreateMap<Department, DepartmentPartDto>().ReverseMap();
         CreateMap<RecruitmentStep, RecruitmentStepDto>().ReverseMap();
         CreateMap<RecruitmentStep, RecruitmentPartDto>().ReverseMap();
+        CreateMap<RecruitmentStep, RecruitmentPartDto>().ReverseMap();
+        CreateMap<RecruitmentStep, AllTableDto>().ReverseMap();
         CreateMap<CreatePersonDto, Person>();
         CreateMap<CreateDepartmentDto, Department>();
         CreateMap<UpdateDepartmentDto, Department>();
