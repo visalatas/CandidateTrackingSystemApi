@@ -76,7 +76,7 @@ namespace CandidateTrackingSystem.Controllers
             return _mapper.Map<PersonDto>(person);
         }
         [HttpPut]
-        public async Task<PersonDto> UpdateAsnyc(UpdatePersonDto input)
+        public async Task<PersonDto> UpdateAsync(UpdatePersonDto input)
         {
             var person = await _personRepository.GetByIdAsync(input.Id);
             person.Name = input.Name;
@@ -90,23 +90,25 @@ namespace CandidateTrackingSystem.Controllers
             
         }
         [HttpPut]
-        public async Task<PersonDto> UpdateStepAsnyc(UpdateStepDto input)
+        public async Task<PersonDto> UpdateStepAsync(UpdateStepDto input)
         {
             var person = await _personRepository.GetByIdAsync(input.Id);
             
             if (input.Status == PersonStatus.Success)
             {
-                 var oldStep = await _recruitmentStepRepository.Where(x => x.Id == person.RecruitmentStepId).FirstOrDefaultAsync();
-
-                var newStep = await _recruitmentStepRepository.Where(x => x.StepQueue == oldStep.StepQueue + 1).FirstOrDefaultAsync();
-                if (newStep == null)
+                var newStep = await _recruitmentStepRepository.Where(x => x.Id == input.StepId).FirstAsync();
+                var nextStep = await _recruitmentStepRepository.Where(x => x.StepQueue == newStep.StepQueue + 1).FirstOrDefaultAsync();
+                if (nextStep == null)
                 {
                     person.Status = PersonStatus.Success;
                 }
                 else
                 {
-                    person.RecruitmentStepId = newStep.Id;
+                    person.Status = PersonStatus.Evaluation;
                 }
+                
+                person.RecruitmentStepId = newStep.Id;
+                
             }
             else if(input.Status == PersonStatus.UnSuccess)
             {

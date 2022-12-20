@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace CandidateServices.Dtos
 {
-    public class UpdateStepDto
+    public class GetAllPersonInput
     {
-        public int Id { get; set; }
-        public int StepId { get; set; }     
-        public PersonStatus Status { get; set; } 
+        public PersonStatus Status { get; set; }
+        public string? SearchText { get; set; }
+        public int? PositionId { get; set; }
     }
 }

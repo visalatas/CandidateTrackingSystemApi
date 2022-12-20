@@ -51,10 +51,15 @@ namespace CandidateTrackingSystem.Controllers
             return _mapper.Map<List<RecruitmentStepDto>>(recruitmentStep);
         }
         [HttpGet]
-        public async Task<List<AllTableDto>> GetAllPersonAsync()
+        public async Task<List<AllTableDto>> GetAllPersonAsync([FromQuery]GetAllPersonInput input)
         {
-            var list =await _recruitmentStepRepository.Where()
-                .Include(x => x.Persons)
+            var list =await _recruitmentStepRepository.Where().OrderBy(x=>x.StepQueue) 
+                .Include(x => x.Persons
+                    .Where(y => y.Status==input.Status && 
+                            (string.IsNullOrEmpty(input.SearchText) ? 
+                                true : 
+                                    (y.Name.Contains(input.SearchText) || y.SurName.Contains(input.SearchText) || y.Mail.Contains(input.SearchText)))
+                            && (input.PositionId > 0 ? y.PositionId == input.PositionId : true)))
                 .ThenInclude(x => x.Position)
                 .ThenInclude(x => x.Department)
                 .ToListAsync();
