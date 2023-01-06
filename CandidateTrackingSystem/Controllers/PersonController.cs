@@ -86,7 +86,8 @@ namespace CandidateTrackingSystem.Controllers
             person.PositionId = input.PositionId;
             await _personRepository.UpdateAsync(person);
             await _unitOfWork.CommitAsync();
-            return _mapper.Map<PersonDto>(person);
+            var result = _mapper.Map<PersonDto>(person);
+            return result;
             
         }
         [HttpPut]
@@ -122,7 +123,7 @@ namespace CandidateTrackingSystem.Controllers
 
         }
         [HttpDelete]
-        public async Task RemoveAsnyc(int id)
+        public async Task RemoveAsync(int id)
         {
             var person = await _personRepository.GetByIdAsync(id);
             await _personRepository.RemoveAsync(person);

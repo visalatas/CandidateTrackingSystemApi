@@ -11,7 +11,9 @@ namespace CandidateCore.Mapping
         {
         CreateMap<Person, PersonDto>().ReverseMap();
         CreateMap<Person, PersonAllDto>().ReverseMap();
-        CreateMap<Position, PositionDto>().ReverseMap();
+            CreateMap<Person, UpdatePersonDto>().ReverseMap();
+
+            CreateMap<Position, PositionDto>().ReverseMap();
         CreateMap<Position, PositionAllDto>().ReverseMap();
         CreateMap<Position, PositionPartDto>().ReverseMap();
         CreateMap<Position, PositionListDto>().ReverseMap();

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CandidateCore.Dtos
 {
-    public class PersonDto : BaseDto
+    public class PersonDto : BaseDto<long>
     {
         public string Name { get; set; }
         public string SurName { get; set; }
